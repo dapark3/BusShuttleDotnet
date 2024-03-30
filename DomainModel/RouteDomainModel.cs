@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DomainModel
 {
-    public class Route
+    public class RouteDomainModel
     {
         public int Id {get; set;}
 
