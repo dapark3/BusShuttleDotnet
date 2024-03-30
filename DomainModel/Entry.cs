@@ -15,7 +15,7 @@ namespace DomainModel
 
         public int LeftBehind {get; set;}
 
-        public Entry(int id, int boarded, int leftBehind, int busId, int driverId, int loopId, int stopId)
+        public Entry(int id, int boarded, int leftBehind)
     {
         Id = id;
         Timestamp = DateTime.Now;
@@ -23,7 +23,7 @@ namespace DomainModel
         LeftBehind = leftBehind;
     }
 
-    public void Update(DateTime timestamp, int boarded, int leftBehind, int busId, int driverId, int loopId, int stopId)
+    public void Update(DateTime timestamp, int boarded, int leftBehind)
     {
         Timestamp = timestamp;
         Boarded = boarded;
