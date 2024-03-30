@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebMvc.Data;
-using WebIdentity.Data;
 
 namespace WebMvc;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +17,13 @@ public class Program
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
+        
+        builder.Services.AddAuthorization(options => 
+            options.AddPolicy("IsManager", policyBuilder => 
+            policyBuilder.RequireClaim("Manager", "True")));
 
         var app = builder.Build();
 
@@ -46,6 +50,22 @@ public class Program
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
         app.MapRazorPages();
+
+        //Manage roles
+        using(var scope = app.Services.CreateScope())
+        {
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var roles = new []{"Manager", "Driver"};
+            foreach(var role in roles)
+            {
+                //Create a manager if no manager exists
+                //Only 1 manager can exist
+                if(!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+        }
 
         app.Run();
     }

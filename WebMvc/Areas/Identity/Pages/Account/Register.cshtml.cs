@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
@@ -113,6 +114,13 @@ namespace WebMvc.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+
+                //Check if user is first user
+                //If so, user is given manager claim
+                bool isFirstUser = _userManager.Users.Count() == 0;
+                var claim = new Claim("Manager", isFirstUser.ToString()); 
+                await _userManager.AddClaimAsync(user, claim);
+                await _userManager.AddToRoleAsync(user, isFirstUser ? "Manager": "Driver");
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
