@@ -15,5 +15,20 @@ namespace DomainModel
         public double Latitude {get; set;}
 
         public double Longitude {get; set;}
+
+        public Stop(int id, string name, double latitude, double longitude, int routeId)
+        {
+            Id = id;
+            Name = name;
+            Latitude = latitude;
+            Longitude = longitude;
+        }
+
+        public void Update(string newName, double newLatitude, double newLongitude, int newRouteId)
+        {
+            Name = newName;
+            Latitude = newLatitude;
+            Longitude = newLongitude;
+        }
     }
 }

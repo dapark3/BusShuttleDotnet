@@ -10,5 +10,16 @@ namespace DomainModel
         public int Id {get; set;}
 
         public int Order {get; set;}
+
+        public RouteDomainModel(int id, int order)
+        {
+            Id = id;
+            Order = order;
+        }
+
+        public void Update(int newOrder)
+        {
+            Order = newOrder;
+        }
     }
 }

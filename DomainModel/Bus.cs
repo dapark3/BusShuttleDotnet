@@ -15,4 +15,9 @@ public class Bus
         Id = id;
         BusNumber = busNumber;
     }
+
+    public void Update(int newBusNumber)
+    {
+        BusNumber = newBusNumber;
+    }
 }

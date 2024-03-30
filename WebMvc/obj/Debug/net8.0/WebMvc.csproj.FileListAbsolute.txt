@@ -263,3 +263,6 @@ C:\Users\nexta\BusShuttleDotnet\WebMvc\obj\Debug\net8.0\refint\WebMvc.dll
 C:\Users\nexta\BusShuttleDotnet\WebMvc\obj\Debug\net8.0\WebMvc.pdb
 C:\Users\nexta\BusShuttleDotnet\WebMvc\obj\Debug\net8.0\WebMvc.genruntimeconfig.cache
 C:\Users\nexta\BusShuttleDotnet\WebMvc\obj\Debug\net8.0\ref\WebMvc.dll
+C:\Users\nexta\BusShuttleDotnet\WebMvc\bin\Debug\net8.0\DomainModel.dll
+C:\Users\nexta\BusShuttleDotnet\WebMvc\bin\Debug\net8.0\DomainModel.pdb
+C:\Users\nexta\BusShuttleDotnet\WebMvc\obj\Debug\net8.0\WebMvc.sourcelink.json
