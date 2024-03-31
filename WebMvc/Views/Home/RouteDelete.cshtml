@@ -1,0 +1,16 @@
+@model WebMvc.Models.RouteDeleteModel
+@{
+    ViewData["Title"] = "Delete Route";
+}
+<div class="container">
+    <form asp-action="RouteDelete">
+        <input type="hidden" asp-for="Id">
+        <div class="text-center">
+            <h2>Are you sure? This cannot be undone</h2>
+            <div class="justify-content-center">
+                <button input="submit">Yes</button>
+                <a asp-action="Index">No</a>
+            </div>
+        </div>
+    </form>
+</div>

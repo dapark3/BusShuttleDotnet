@@ -1,0 +1,57 @@
+@model IEnumerable<WebMvc.Models.DriverViewModel>;
+@{
+    ViewData["Title"] = "Driver Table";
+}
+<h3><a asp-action="Index">Go Back</a></h3>
+<br>
+<h2>Driver List</h2>
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                Edit Button
+            </th>
+            <th>
+                Delete Button
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null)
+        {
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.LastName)
+                    </td>
+                    <td>
+                        <a asp-action="DriverUpdate" asp-route-id="@item.Id">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-action="DriverDelete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<p>
+    <a asp-action="DriverCreate">Create Driver</a>
+</p>

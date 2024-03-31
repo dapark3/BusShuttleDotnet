@@ -21,177 +21,222 @@ namespace WebMvc.Service
 
         public Bus? FindBusByID(int id)
         {
-            return this.GetAllBuses().Find(b => b.Id == id);
+            return GetAllBuses().Find(b => b.Id == id);
         }
 
-        public void UpdateBusByID(int id)
+        public void UpdateBusByID(int id, int busNumber)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Bus selectedBus = FindBusByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedBus == null) return;
+            selectedBus.Update(busNumber);
+            _context.SaveChanges();
         }
 
-        public int GetNumBuses()
+        public void CreateNewBus(Bus bus)
         {
-            throw new NotImplementedException();
-        }
-
-        public void CreateNewBus(int id, int BusNumber)
-        {
-            throw new NotImplementedException();
+            _context.Buses.Add(bus);
         }
 
         public void DeleteBusByID(int id)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Bus selectedBus = FindBusByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedBus == null) return;
+            _context.Buses.Remove(selectedBus);
+            _context.SaveChanges();
         }
 
         public List<Driver> GetAllDrivers()
         {
-            throw new NotImplementedException();
+            return _context.Drivers.OrderBy(driver => driver.Id).ToList();
         }
 
         public Driver? FindDriverByID(int id)
         {
-            throw new NotImplementedException();
+            return GetAllDrivers().Find(driver => driver.Id == id);
         }
 
-        public void UpdateDriverByID(int id)
+        public void UpdateDriverByID(int id, string firstName, string lastName)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Driver selectedDriver = FindDriverByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedDriver == null) return;
+            selectedDriver.Update(firstName, lastName);
+            _context.SaveChanges();
         }
 
-        public int GetNumDrivers()
+        public void CreateNewDriver(Driver driver)
         {
-            throw new NotImplementedException();
-        }
-
-        public void CreateNewDriver(int id, string FirstName, string LastName)
-        {
-            throw new NotImplementedException();
+            _context.Drivers.Add(driver);
         }
 
         public void DeleteDriverByID(int id)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Driver selectedDriver = FindDriverByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedDriver == null) return;
+            _context.Drivers.Remove(selectedDriver);
+            _context.SaveChanges();
         }
 
         public List<Entry> GetAllEntries()
         {
-            throw new NotImplementedException();
+            return _context.Entries.OrderBy(entry => entry.Id).ToList();
         }
 
         public Entry? FindEntryByID(int id)
         {
-            throw new NotImplementedException();
+            return GetAllEntries().Find(entry => entry.Id == id);
         }
 
-        public void UpdateEntryByID(int id)
+        public void UpdateEntryByID(int id, DateTime timestamp, int boarded, int leftBehind)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Entry selectedEntry = FindEntryByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedEntry == null) return;
+            selectedEntry.Update(timestamp, boarded, leftBehind);
+            _context.SaveChanges();
         }
 
-        public int GetNumEntries()
+        public void CreateNewEntry(Entry entry)
         {
-            throw new NotImplementedException();
-        }
-
-        public void CreateNewEntry(int id, DateTime timestamp, int boarded, int LeftBehind)
-        {
-            throw new NotImplementedException();
+            _context.Entries.Add(entry);
         }
 
         public void DeleteEntryByID(int id)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Entry selectedEntry = FindEntryByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedEntry == null) return;
+            _context.Entries.Remove(selectedEntry);
+            _context.SaveChanges();
         }
 
         public List<Loop> GetAllLoops()
         {
-            throw new NotImplementedException();
+            return _context.Loops.OrderBy(loop => loop.Id).ToList();
         }
 
         public Loop? FindLoopByID(int id)
         {
-            throw new NotImplementedException();
+            return GetAllLoops().Find(loop => loop.Id == id);
         }
 
-        public void UpdateLoopByID(int id)
+        public void UpdateLoopByID(int id, string name)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Loop selectedLoop = FindLoopByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedLoop == null) return;
+            selectedLoop.Update(name);
+            _context.SaveChanges();
         }
 
         public int GetNumLoops()
         {
-            throw new NotImplementedException();
+            return GetAllLoops().Count();
         }
 
-        public void CreateNewLoop(int id, string name)
+        public void CreateNewLoop(Loop loop)
         {
-            throw new NotImplementedException();
+            _context.Loops.Add(loop);
         }
 
         public void DeleteLoopById(int id)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Loop selectedLoop = FindLoopByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedLoop == null) return;
+            _context.Loops.Remove(selectedLoop);
+            _context.SaveChanges();
         }
 
         public List<RouteDomainModel> GetAllRoutes()
         {
-            throw new NotImplementedException();
+            return _context.Routes.OrderBy(route => route.Id).ToList();
         }
 
         public RouteDomainModel? FindRouteByID(int id)
         {
-            throw new NotImplementedException();
+            return GetAllRoutes().Find(route => route.Id == id);
         }
 
-        public void UpdateRouteByID(int id)
+        public void UpdateRouteByID(int id, int order)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            RouteDomainModel selectedRoute = FindRouteByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedRoute == null) return;
+            selectedRoute.Update(order);
+            _context.SaveChanges();
         }
 
         public int GetNumRoutes()
         {
-            throw new NotImplementedException();
+            return GetAllRoutes().Count();
         }
 
-        public void CreateNewRoute(int id, int order)
+        public void CreateNewRoute(RouteDomainModel route)
         {
-            throw new NotImplementedException();
+            _context.Routes.Add(route);
         }
 
         public void DeleteRouteById(int id)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            RouteDomainModel selectedRoute = FindRouteByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedRoute == null) return;
+            _context.Routes.Remove(selectedRoute);
+            _context.SaveChanges();
         }
 
         public List<Stop> GetAllStops()
         {
-            throw new NotImplementedException();
+            return _context.Stops.OrderBy(stop => stop.Id).ToList();
         }
 
         public Stop? FindStopByID(int id)
         {
-            throw new NotImplementedException();
+            return GetAllStops().Find(stop => stop.Id == id);
         }
 
-        public void UpdateStopByID(int id)
+        public void UpdateStopByID(int id, string name, double latitude, double longitude)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Stop selectedStop = FindStopByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedStop == null) return;
+            selectedStop.Update(name, latitude, longitude);
+            _context.SaveChanges();
         }
 
         public int GetNumStops()
         {
-            throw new NotImplementedException();
+            return GetAllStops().Count();
         }
 
-        public void CreateNewStop(int id, string name, double Latitude, double Longitude)
+        public void CreateNewStop(Stop stop)
         {
-            throw new NotImplementedException();
+            _context.Stops.Add(stop);
         }
 
         public void DeleteStopById(int id)
         {
-            throw new NotImplementedException();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Stop selectedStop = FindStopByID(id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if(selectedStop == null) return;
+            _context.Stops.Remove(selectedStop);
+            _context.SaveChanges();
         }
     }
 }
