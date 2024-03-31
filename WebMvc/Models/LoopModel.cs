@@ -37,11 +37,11 @@ namespace WebMvc.Models
         public string Name {get;set;}
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public static LoopCreateModel CreateLoop(int id, string name)
+        public static LoopCreateModel CreateLoop(int id)
         {
             return new LoopCreateModel{
                 Id = id,
-                Name = name
+                Name = ""
             };
         }
     }

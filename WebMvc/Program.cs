@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebMvc.Data;
+using WebMvc.Service;
 
 namespace WebMvc;
 
@@ -24,6 +25,8 @@ public class Program
         builder.Services.AddAuthorization(options => 
             options.AddPolicy("IsManager", policyBuilder => 
             policyBuilder.RequireClaim("Manager", "True")));
+
+        builder.Services.AddSingleton<IBusShuttleService, BusShuttleService>();
 
         var app = builder.Build();
 

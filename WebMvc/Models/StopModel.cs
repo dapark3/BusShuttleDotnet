@@ -46,13 +46,13 @@ namespace WebMvc.Models
         public double Longitude {get;set;}
         public double Latitude {get;set;}
 
-        public static StopCreateModel CreateStop(int id, string name, double longitude, double latitude)
+        public static StopCreateModel CreateStop(int id)
         {
             return new StopCreateModel{
                 Id = id,
-                Name = name,
-                Longitude = longitude,
-                Latitude = latitude
+                Name = "",
+                Longitude = 0.0,
+                Latitude = 0.0
             };
         }
     }

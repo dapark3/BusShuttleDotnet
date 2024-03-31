@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using DomainModel;
@@ -34,15 +35,19 @@ namespace WebMvc.Models
     public class DriverCreateModel
     {
         public int Id {get;set;}
+        [Display(Name = "First Name")]
+        [StringLength(50, MinimumLength = 1)]
         public string? FirstName {get;set;}
+        [Display(Name = "Last Name")]
+        [StringLength(50, MinimumLength = 1)]
         public string? LastName {get;set;}
 
-        public static DriverCreateModel CreateDriver(int id, string FirstName, string LastName)
+        public static DriverCreateModel CreateDriver(int id)
         {
             return new DriverCreateModel{
                 Id = id,
-                FirstName = FirstName,
-                LastName = LastName
+                FirstName = "",
+                LastName = ""
             };
         }
 
@@ -54,12 +59,12 @@ namespace WebMvc.Models
         public string? FirstName {get;set;}
         public string? LastName {get;set;}
 
-        public static DriverUpdateModel UpdateDriver(int id, string FirstName, string LastName)
+        public static DriverUpdateModel UpdateDriver(Driver driver)
         {
             return new DriverUpdateModel{
-                Id = id,
-                FirstName = FirstName,
-                LastName = LastName
+                Id = driver.Id,
+                FirstName = driver.FirstName,
+                LastName = driver.LastName
             };
         }
     }

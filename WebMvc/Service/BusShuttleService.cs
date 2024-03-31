@@ -37,6 +37,7 @@ namespace WebMvc.Service
         public void CreateNewBus(Bus bus)
         {
             _context.Buses.Add(bus);
+            _context.SaveChanges();
         }
 
         public void DeleteBusByID(int id)
@@ -72,6 +73,7 @@ namespace WebMvc.Service
         public void CreateNewDriver(Driver driver)
         {
             _context.Drivers.Add(driver);
+            _context.SaveChanges();
         }
 
         public void DeleteDriverByID(int id)
@@ -107,6 +109,7 @@ namespace WebMvc.Service
         public void CreateNewEntry(Entry entry)
         {
             _context.Entries.Add(entry);
+            _context.SaveChanges();
         }
 
         public void DeleteEntryByID(int id)
@@ -147,6 +150,7 @@ namespace WebMvc.Service
         public void CreateNewLoop(Loop loop)
         {
             _context.Loops.Add(loop);
+            _context.SaveChanges();
         }
 
         public void DeleteLoopById(int id)
@@ -187,6 +191,7 @@ namespace WebMvc.Service
         public void CreateNewRoute(RouteDomainModel route)
         {
             _context.Routes.Add(route);
+            _context.SaveChanges();
         }
 
         public void DeleteRouteById(int id)
@@ -227,6 +232,7 @@ namespace WebMvc.Service
         public void CreateNewStop(Stop stop)
         {
             _context.Stops.Add(stop);
+            _context.SaveChanges();
         }
 
         public void DeleteStopById(int id)

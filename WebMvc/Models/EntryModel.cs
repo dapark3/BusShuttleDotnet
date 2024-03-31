@@ -39,13 +39,13 @@ namespace WebMvc.Models
         public int Boarded {get;set;}
         public int LeftBehind {get;set;}
 
-        public static EntryCreateModel CreateEntry(int id, DateTime timestamp, int boarded, int leftBehind)
+        public static EntryCreateModel CreateEntry(int id)
         {
             return new EntryCreateModel{
                 Id = id,
-                Timestamp = timestamp,
-                Boarded = boarded,
-                LeftBehind = leftBehind
+                Timestamp = DateTime.Now,
+                Boarded = 0,
+                LeftBehind = 0
             };
         }
     }

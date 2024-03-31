@@ -31,11 +31,10 @@ namespace WebMvc.Models
         public int Id {get;set;}
         public int Order {get;set;}
 
-        public static RouteCreateModel CreateRoute(int id, int order)
+        public static RouteCreateModel CreateRoute(int id)
         {
             return new RouteCreateModel{
-                Id = id,
-                Order = order
+                Id = id
             };
         }
     }
