@@ -176,10 +176,10 @@ public class HomeController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Manager")]
-    public async Task<IActionResult> RouteCreate([Bind("Id,Order")] RouteCreateModel route)
+    public async Task<IActionResult> RouteCreate([Bind("Id,Order,Stop")] RouteCreateModel route)
     {
         if(!ModelState.IsValid) return View(route);
-        await Task.Run(() => _shuttleService.CreateNewRoute(new RouteDomainModel(route.Id, route.Order)));
+        await Task.Run(() => _shuttleService.CreateNewRoute(new RouteDomainModel(route.Id, route.Order, route.Stop)));
         return RedirectToAction("Index");
     }
 
@@ -300,10 +300,10 @@ public class HomeController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Manager")]
-    public async Task<IActionResult> LoopCreate([Bind("Id,Name")] LoopCreateModel loop)
+    public async Task<IActionResult> LoopCreate([Bind("Id,Name,Routes")] LoopCreateModel loop)
     {
         if(!ModelState.IsValid) return View(loop);
-        await Task.Run(() => _shuttleService.CreateNewLoop(new Loop(loop.Id, loop.Name)));
+        await Task.Run(() => _shuttleService.CreateNewLoop(new Loop(loop.Id, loop.Name, loop.Routes)));
         return RedirectToAction("Index");
     }
 
@@ -362,10 +362,10 @@ public class HomeController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Manager")]
-    public async Task<IActionResult> EntryCreate([Bind("Id,Timestamp,Boarded,LeftBehind")] EntryCreateModel entry)
+    public async Task<IActionResult> EntryCreate([Bind("Id,Timestamp,Boarded,LeftBehind,Bus,Driver,Loop,Stop")] EntryCreateModel entry)
     {
         if(!ModelState.IsValid) return View(entry);
-        await Task.Run(() => _shuttleService.CreateNewEntry(new Entry(entry.Id, entry.Boarded, entry.LeftBehind)));
+        await Task.Run(() => _shuttleService.CreateNewEntry(new Entry(entry.Id, entry.Boarded, entry.LeftBehind, entry.Bus, entry.Driver, entry.Loop, entry.Stop)));
         return RedirectToAction("Index");
     }
 
