@@ -20,11 +20,11 @@ public class Program
         builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
-        builder.Services.AddControllersWithViews();
+
+        builder.Services.AddAuthorization(options => options.AddPolicy("IsActivated", 
+            policyBuilder => policyBuilder.RequireClaim("Activated", "True")));
         
-        builder.Services.AddAuthorization(options => 
-            options.AddPolicy("IsManager", policyBuilder => 
-            policyBuilder.RequireClaim("Manager", "True")));
+        builder.Services.AddControllersWithViews();
 
         builder.Services.AddSingleton<IBusShuttleService, BusShuttleService>();
 

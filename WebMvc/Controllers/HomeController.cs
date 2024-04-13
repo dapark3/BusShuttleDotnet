@@ -19,7 +19,7 @@ public class HomeController : Controller
         _shuttleService = shuttleService;
     }
 
-    [Authorize("IsManager")]
+    [Authorize("IsActivated")]
     public IActionResult Index()
     {
         return View();

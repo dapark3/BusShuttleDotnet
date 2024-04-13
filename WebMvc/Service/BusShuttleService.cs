@@ -60,13 +60,13 @@ namespace WebMvc.Service
             return GetAllDrivers().Find(driver => driver.Id == id);
         }
 
-        public void UpdateDriverByID(int id, string firstName, string lastName)
+        public void UpdateDriverByID(int id, string firstName, string lastName, bool activated)
         {
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             Driver selectedDriver = FindDriverByID(id);
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             if(selectedDriver == null) return;
-            selectedDriver.Update(firstName, lastName);
+            selectedDriver.Update(firstName, lastName, activated);
             _context.SaveChanges();
         }
 

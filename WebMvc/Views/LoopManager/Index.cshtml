@@ -1,0 +1,47 @@
+@model IEnumerable<WebMvc.Models.LoopViewModel>;
+@{
+    ViewData["Title"] = "Loop Table";
+}
+<h3><a asp-controller="Home" asp-action="Index">Go Back</a></h3>
+<h2>Loop Table</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                Update Button
+            </th>
+            <th>
+                Delete Button
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null)
+        {
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Name)
+                    </td>
+                    <td>
+                        <a asp-action="LoopUpdate" asp-route-id="@item.Id">Update</a>
+                    </td>
+                    <td>
+                        <a asp-action="LoopDelete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<a asp-action="LoopCreate">Create Loop</a>

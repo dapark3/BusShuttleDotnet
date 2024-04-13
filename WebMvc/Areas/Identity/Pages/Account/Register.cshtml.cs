@@ -11,6 +11,8 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using DomainModel;
+using Humanizer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +21,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using WebMvc.Models;
+using WebMvc.Service;
 
 namespace WebMvc.Areas.Identity.Pages.Account
 {
@@ -30,13 +34,15 @@ namespace WebMvc.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IBusShuttleService _busShuttleService;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IBusShuttleService busShuttleService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +50,7 @@ namespace WebMvc.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _busShuttleService = busShuttleService;
         }
 
         /// <summary>
@@ -71,6 +78,16 @@ namespace WebMvc.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            [Required]
+            [Display(Name = "First Name")]
+            [StringLength(50, MinimumLength = 1, ErrorMessage = "Please enter your first name.")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            [StringLength(50, MinimumLength = 1, ErrorMessage = "Please enter your last name.")]
+            public string LastName { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -116,11 +133,22 @@ namespace WebMvc.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 //Check if user is first user
-                //If so, user is given manager claim
+                //If so, user is given manager claim and activated claim
                 bool isFirstUser = _userManager.Users.Count() == 0;
+
                 var claim = new Claim("Manager", isFirstUser.ToString()); 
                 await _userManager.AddClaimAsync(user, claim);
                 await _userManager.AddToRoleAsync(user, isFirstUser ? "Manager": "Driver");
+
+                claim = new Claim("Activated", isFirstUser.ToString());
+                await _userManager.AddClaimAsync(user, claim);
+
+                //Add driver to database if manager role has been claimed
+                if (!isFirstUser)
+                {
+                    DriverCreateModel driver = DriverCreateModel.CreateDriver(_userManager.Users.Count() + 1);
+                    await Task.Run(() => _busShuttleService.CreateNewDriver(new Driver(driver.Id, Input.FirstName, Input.LastName, Input.Email, false)));
+                }
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
