@@ -16,18 +16,18 @@ namespace DomainModel
         public int LeftBehind {get; set;}
 
         public Entry(int id, int boarded, int leftBehind)
-    {
-        Id = id;
-        Timestamp = DateTime.Now;
-        Boarded = boarded;
-        LeftBehind = leftBehind;
-    }
+        {
+            Id = id;
+            Timestamp = DateTime.Now;
+            Boarded = boarded;
+            LeftBehind = leftBehind;
+        }
 
-    public void Update(DateTime timestamp, int boarded, int leftBehind)
-    {
-        Timestamp = timestamp;
-        Boarded = boarded;
-        LeftBehind = leftBehind;
-    }
+        public void Update(DateTime timestamp, int boarded, int leftBehind)
+        {
+            Timestamp = timestamp;
+            Boarded = boarded;
+            LeftBehind = leftBehind;
+        }
     }
 }
