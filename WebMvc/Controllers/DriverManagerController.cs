@@ -67,7 +67,7 @@ namespace WebMvc.Controllers
                 await _userManager.ReplaceClaimAsync(user, previousClaim, newClaim);
             } catch
             {
-                Console.WriteLine("No email found for driver");
+                Console.WriteLine("No email found for driver.");
             }
         
             return RedirectToAction("Index");
