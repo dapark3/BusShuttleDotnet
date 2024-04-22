@@ -11,10 +11,13 @@ namespace DomainModel
 
         public int Order {get; set;}
 
-        public RouteDomainModel(int id, int order)
+        public Stop Stop {get; set;}
+
+        public RouteDomainModel(int id, int order, Stop stop)
         {
             Id = id;
             Order = order;
+            Stop = stop;
         }
 
         public void Update(int newOrder)

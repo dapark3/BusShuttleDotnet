@@ -15,13 +15,25 @@ namespace DomainModel
 
         public int LeftBehind {get; set;}
 
-        public Entry(int id, int boarded, int leftBehind)
-        {
-            Id = id;
-            Timestamp = DateTime.Now;
-            Boarded = boarded;
-            LeftBehind = leftBehind;
-        }
+        public Bus Bus {get; set;}
+
+        public Driver Driver {get; set;}
+
+        public Loop Loop {get; set;}
+
+        public Stop Stop {get; set;}
+
+        public Entry(int id, int boarded, int leftBehind, Bus bus, Driver driver, Loop loop, Stop stop)
+    {
+        Id = id;
+        Timestamp = DateTime.Now;
+        Boarded = boarded;
+        LeftBehind = leftBehind;
+        Bus = bus;
+        Driver = driver;
+        Loop = loop;
+        Stop = stop;
+    }
 
         public void Update(DateTime timestamp, int boarded, int leftBehind)
         {
