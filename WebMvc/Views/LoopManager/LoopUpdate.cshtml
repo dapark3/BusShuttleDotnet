@@ -1,12 +1,12 @@
-@model WebMvc.Models.LoopCreateModel;
+@model WebMvc.Models.LoopUpdateModel;
 @{
-    ViewData["Title"] = "Create Loop";
+    ViewData["Title"] = "Update Loop";
 }
-<h3><a asp-action="Index">Go Back</a></h3>
-<h2>Loop Creator</h2>
+<h3><a asp-controller="Home" asp-action="Index">Go Back</a></h3>
+<h2>Loop Updater</h2>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="LoopCreate">
+        <form asp-action="LoopUpdate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">

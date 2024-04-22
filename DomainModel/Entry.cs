@@ -35,11 +35,11 @@ namespace DomainModel
         Stop = stop;
     }
 
-    public void Update(DateTime timestamp, int boarded, int leftBehind)
-    {
-        Timestamp = timestamp;
-        Boarded = boarded;
-        LeftBehind = leftBehind;
-    }
+        public void Update(DateTime timestamp, int boarded, int leftBehind)
+        {
+            Timestamp = timestamp;
+            Boarded = boarded;
+            LeftBehind = leftBehind;
+        }
     }
 }

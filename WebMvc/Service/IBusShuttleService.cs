@@ -17,7 +17,7 @@ namespace WebMvc.Service
 
         public List<Driver> GetAllDrivers();
         public Driver? FindDriverByID(int id);
-        public void UpdateDriverByID(int id, string firstName, string lastName);
+        public void UpdateDriverByID(int id, string firstName, string lastName, bool activated);
         public void CreateNewDriver(Driver driver);
         public void DeleteDriverByID(int id);
 

@@ -1,14 +1,12 @@
-@model WebMvc.Models.BusCreateModel;
+@model WebMvc.Models.BusUpdateModel;
 @{
-    ViewData["Title"] = "Create Bus";
+    ViewData["Title"] = "Update Bus";
 }
-<p>
-    <h3><a asp-action="Index">Go Back</a></h3>
-</p>
-<h2>Create a Bus</h2>
+<h3><a asp-controller="Home" asp-action="Index">Go Back</a></h3>
+<h2>Update Bus</h2>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="BusCreate">
+        <form asp-action="BusUpdate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">

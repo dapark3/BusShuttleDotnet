@@ -1,12 +1,12 @@
-@model WebMvc.Models.StopUpdateModel;
+@model WebMvc.Models.StopCreateModel;
 @{
-    ViewData["Title"] = "Edit Stop";
+    ViewData["Title"] = "Create Stop";
 }
-<h3><a asp-action="Index">Go Back</a></h3>
-<h2>Stop Updater</h2>
+<h3><a asp-controller="Home" asp-action="Index">Go Back</a></h3>
+<h2>Stop Creator</h2>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="StopUpdate">
+        <form asp-action="StopCreate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">

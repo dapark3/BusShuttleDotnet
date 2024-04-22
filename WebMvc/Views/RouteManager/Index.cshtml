@@ -1,17 +1,17 @@
-@model IEnumerable<WebMvc.Models.BusViewModel>;
+@model IEnumerable<WebMvc.Models.RouteViewModel>;
 @{
-    ViewData["Title"] = "Bus Table";
+    ViewData["Title"] = "Route Table";
 }
-<h3><a asp-action="Index">Go Back</a></h3>
-<h2>Bus Table</h2>
+<h3><a asp-controller="Home" asp-action="Index">Go Back</a></h3>
+<h2>Route Table</h2>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Id
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                Bus Number
+                @Html.DisplayNameFor(model => model.Order)
             </th>
             <th>
                 Update Button
@@ -31,17 +31,17 @@
                         @Html.DisplayFor(model => item.Id)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => item.BusNumber)
+                        @Html.DisplayFor(model => item.Order)
                     </td>
                     <td>
-                        <a asp-action="BusUpdate" asp-route-id="@item.Id">Update</a>
+                        <a asp-action="RouteUpdate" asp-route-id="@item.Id">Update</a>
                     </td>
                     <td>
-                        <a asp-action="BusDelete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="RouteDelete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }
         }
     </tbody>
 </table>
-<a asp-action="BusCreate">Create Bus</a>
+<a asp-action="RouteCreate">Create Route</a>
