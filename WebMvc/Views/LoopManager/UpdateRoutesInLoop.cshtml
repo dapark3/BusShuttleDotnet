@@ -1,0 +1,41 @@
+@model WebMvc.Models.RoutesInLoopUpdateModel;
+@{
+    ViewData["Title"] = "Loop Routes";
+}
+
+<h3><a asp-controller="LoopManager" asp-action="Index">Go Back</a></h3>
+
+<div class="flex flex-col justify-content-center border border-secondary p-5 m-5 text-center">
+    <table class="table table-striped border border-light">
+        <thead>
+            <tr>
+                <th class="text-light">
+                    Id
+                </th>
+                <th class="text-light">
+                    Order
+                </th>
+                <th class="text-light"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.Routes)
+            {
+                <tr>
+                    <td class="text-light">
+                        @item.Id
+                    </td>
+                    <td class="text-light">
+                        @item.Order
+                    </td>
+                    <td class="text-light">
+                        <a asp-action="RouteRemove" asp-route-id="@item.Id" class="link-warning">Remove</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="AddRoute" asp-route-id="@Model.LoopId" class="btn btn-primary btn-lg w-25 text-light">
+        Add Route
+    </a>
+</div>

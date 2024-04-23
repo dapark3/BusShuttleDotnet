@@ -1,6 +1,32 @@
-@model IEnumerable<WebMvc.Service.BusShuttleService>;
+@using DomainModel
+@model WebMvc.Models.DriverDashboardModel;
 @{
     ViewData["Title"] = "Driver Dashboard";
 }
-<h3><a asp-action="Index">Go Back</a></h3>
-<h2>Select a Stop:</h2>
+
+<div class="flex">
+    <form asp-action="DriverDashboard" method="POST">
+        <div asp-validation-summary="ModelOnly" class="text-danger form-text"></div>
+        <div class="form-group py-2 my-2">
+                <option selected></option>
+                @foreach(var loop in Model.Loops)
+                {
+                    <option value="@loop.Id" class="text-light bg-dark">@loop.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group py-2 my-2">
+            <label asp-for="BusId" class="form-label fs-3 text-light"></label>
+            <select asp-for="BusId" class="form-select form-control bg-dark text-light">
+                <option selected></option>
+                @foreach(var bus in Model.Buses)
+                {
+                    <option value="@bus.Id" class="text-light bg-dark">@bus.BusNumber</option>
+                }
+            </select>
+        </div>
+        <div class="form-group py-2 my-2">
+            <input type="submit" value="Start" class="btn btn-primary btn-lg w-25 text-light" />
+        </div>
+    </form>
+</div>

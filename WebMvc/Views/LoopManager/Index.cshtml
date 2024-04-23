@@ -19,6 +19,9 @@
             <th>
                 Delete Button
             </th>
+            <th>
+                Add or Remove Routes
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -38,6 +41,9 @@
                     </td>
                     <td>
                         <a asp-action="LoopDelete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                    <td>
+                        <a asp-action="UpdateRoutesInLoop" asp-route-id="@item.Id">Edit Routes</a>
                     </td>
                 </tr>
             }

@@ -4,56 +4,77 @@
 }
 <h3><a asp-controller="Home" asp-action="Index">Go Back</a></h3>
 <h2>Entry Table</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Timestamp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Boarded)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LeftBehind)
-            </th>
-            <th>
-                Update Button
-            </th>
-            <th>
-                Delete Button
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @if(Model != null)
-        {
-            @foreach(var item in Model)
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Timestamp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Boarded)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LeftBehind)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BusId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DriverId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoopId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StopId)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model != null)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(model => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Timestamp)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Boarded)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.LeftBehind)
-                    </td>
-                    <td>
-                        <a asp-action="EntryUpdate" asp-route-id="@item.Id">Update</a>
-                    </td>
-                    <td>
-                        <a asp-action="EntryDelete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Timestamp)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Boarded)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.LeftBehind)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.BusId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.DriverId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.LoopId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.StopId)
+                        </td>
+                        <td>
+                            <a asp-action="EntryUpdate" asp-route-id="@item.Id" class="link-info">Edit</a> |
+                            <a asp-action="EntryDelete" asp-route-id="@item.Id" class="link-info">Delete</a>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
-<a asp-action="EntryCreate">Create Entry</a>
+        </tbody>
+    </table>
+    <a asp-action="EntryCreate" class="btn btn-primary btn-lg w-25 text-light">
+        Create Entry
+    </a>
+</div>

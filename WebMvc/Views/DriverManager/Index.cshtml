@@ -1,3 +1,6 @@
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@inject UserManager<IdentityUser> userManager
 @model IEnumerable<WebMvc.Models.DriverViewModel>;
 @{
     ViewData["Title"] = "Driver Table";
@@ -5,62 +8,64 @@
 <h3><a asp-controller="Home" asp-action="Index">Go Back</a></h3>
 <br>
 <h2>Driver List</h2>
-<br>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Activated)
-            </th>
-            <th>
-                Edit Button
-            </th>
-            <th>
-                Delete Button
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @if(Model != null)
-        {
-            @foreach(var item in Model)
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model != null)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(model => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Activated)
-                    </td>
-                    <td>
-                        <a asp-action="DriverUpdate" asp-route-id="@item.Id">Edit</a>
-                    </td>
-                    <td>
-                        <a asp-action="DriverDelete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+                foreach(var item in Model)
+                {
+                    bool isUserActivated;
+                    var user = await userManager.FindByEmailAsync(item.Email);
+                    if(user == null) {
+                        userManager.Logger.LogWarning("Couldn't find user by their email on the auth database.");
+                        continue;
+                    }
+                    IList<Claim> claimsList = await userManager.GetClaimsAsync(user);
+                    Claim? activationClaim = claimsList.SingleOrDefault(claim => claim.Type == "activated");
+                    isUserActivated = activationClaim != null && activationClaim.Value == "True";
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.LastName)
+                        </td>
+                        <td>
+                            @if(isUserActivated) {
+                                <a asp-action="DeactivateDriver" asp-route-id="@item.Email" class="link-danger">Deactivate</a>
+                            } else {
+                                <a asp-action="ActivateDriver" asp-route-id="@item.Email" class="link-info">Activate</a>
+                            }|
+                            <a asp-action="DriverUpdate" asp-route-id="@item.Id" class="link-info">Edit</a> |
+                            <a asp-action="DriverDelete" asp-route-id="@item.Id" class="link-info">Delete</a>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
