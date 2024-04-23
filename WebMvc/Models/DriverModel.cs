@@ -37,8 +37,7 @@ namespace WebMvc.Models
                 Id = driver.Id,
                 FirstName = driver.FirstName,
                 LastName = driver.LastName,
-                Email = driver.Email,
-                Activated = driver.Activated
+                Email = driver.Email
             };
         }
     }
@@ -93,8 +92,7 @@ namespace WebMvc.Models
                 Id = driver.Id,
                 FirstName = driver.FirstName,
                 LastName = driver.LastName,
-                Email = driver.Email,
-                Activated = driver.Activated
+                Email = driver.Email
             };
         }
     }
