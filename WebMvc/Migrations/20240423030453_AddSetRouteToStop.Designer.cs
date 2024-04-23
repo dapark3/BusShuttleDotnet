@@ -11,8 +11,8 @@ using WebMvc.Models;
 namespace WebMvc.Migrations
 {
     [DbContext(typeof(BusShuttleContext))]
-    [Migration("20240330233250_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240423030453_AddSetRouteToStop")]
+    partial class AddSetRouteToStop
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,8 @@ namespace WebMvc.Migrations
                     b.Property<int>("BusNumber")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PrimaryKey_Id");
 
                     b.ToTable("Buses");
                 });
@@ -40,6 +41,10 @@ namespace WebMvc.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -48,7 +53,8 @@ namespace WebMvc.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PrimaryKey_Id");
 
                     b.ToTable("Drivers");
                 });
@@ -62,13 +68,34 @@ namespace WebMvc.Migrations
                     b.Property<int>("Boarded")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("BusId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DriverId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("LeftBehind")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("LoopId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("StopId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PrimaryKey_Id");
+
+                    b.HasIndex("BusId");
+
+                    b.HasIndex("DriverId");
+
+                    b.HasIndex("LoopId");
+
+                    b.HasIndex("StopId");
 
                     b.ToTable("Entries");
                 });
@@ -83,7 +110,8 @@ namespace WebMvc.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PrimaryKey_Id");
 
                     b.ToTable("Loops");
                 });
@@ -94,10 +122,22 @@ namespace WebMvc.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("LoopId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Order")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.Property<int>("StopId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id")
+                        .HasName("PrimaryKey_Id");
+
+                    b.HasIndex("LoopId");
+
+                    b.HasIndex("StopId")
+                        .IsUnique();
 
                     b.ToTable("Routes");
                 });
@@ -118,9 +158,66 @@ namespace WebMvc.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PrimaryKey_Id");
 
                     b.ToTable("Stops");
+                });
+
+            modelBuilder.Entity("DomainModel.Entry", b =>
+                {
+                    b.HasOne("DomainModel.Bus", "Bus")
+                        .WithMany()
+                        .HasForeignKey("BusId");
+
+                    b.HasOne("DomainModel.Driver", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId");
+
+                    b.HasOne("DomainModel.Loop", "Loop")
+                        .WithMany()
+                        .HasForeignKey("LoopId");
+
+                    b.HasOne("DomainModel.Stop", "Stop")
+                        .WithMany()
+                        .HasForeignKey("StopId");
+
+                    b.Navigation("Bus");
+
+                    b.Navigation("Driver");
+
+                    b.Navigation("Loop");
+
+                    b.Navigation("Stop");
+                });
+
+            modelBuilder.Entity("DomainModel.RouteDomainModel", b =>
+                {
+                    b.HasOne("DomainModel.Loop", "Loop")
+                        .WithMany("Routes")
+                        .HasForeignKey("LoopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DomainModel.Stop", "Stop")
+                        .WithOne("Route")
+                        .HasForeignKey("DomainModel.RouteDomainModel", "StopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Loop");
+
+                    b.Navigation("Stop");
+                });
+
+            modelBuilder.Entity("DomainModel.Loop", b =>
+                {
+                    b.Navigation("Routes");
+                });
+
+            modelBuilder.Entity("DomainModel.Stop", b =>
+                {
+                    b.Navigation("Route");
                 });
 #pragma warning restore 612, 618
         }
