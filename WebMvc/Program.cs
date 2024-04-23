@@ -26,7 +26,9 @@ public class Program
         
         builder.Services.AddControllersWithViews();
 
+        // Dependency Injection
         builder.Services.AddSingleton<IBusShuttleService, BusShuttleService>();
+        builder.Services.AddScoped<IUserService, UserService>();
 
         var app = builder.Build();
 

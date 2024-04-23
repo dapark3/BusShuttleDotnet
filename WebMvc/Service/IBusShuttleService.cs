@@ -9,6 +9,10 @@ namespace WebMvc.Service
 {
     public interface IBusShuttleService
     {
+        public int GenerateId();
+        public bool IsIdTaken(int id);
+        public void SaveChanges();
+
         public List<Bus> GetAllBuses();
         public Bus? FindBusByID(int id);
         public void UpdateBusByID(int id, int busNumber);
@@ -17,7 +21,8 @@ namespace WebMvc.Service
 
         public List<Driver> GetAllDrivers();
         public Driver? FindDriverByID(int id);
-        public void UpdateDriverByID(int id, string firstName, string lastName, bool activated);
+        public Driver? FindDriverByEmail(string email);
+        public void UpdateDriverByID(int id, string firstName, string lastName);
         public void CreateNewDriver(Driver driver);
         public void DeleteDriverByID(int id);
 

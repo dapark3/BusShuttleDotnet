@@ -147,7 +147,7 @@ namespace WebMvc.Areas.Identity.Pages.Account
                 if (!isFirstUser)
                 {
                     DriverCreateModel driver = DriverCreateModel.CreateDriver(_userManager.Users.Count() + 1);
-                    await Task.Run(() => _busShuttleService.CreateNewDriver(new Driver(driver.Id, Input.FirstName, Input.LastName, Input.Email, false)));
+                    await Task.Run(() => _busShuttleService.CreateNewDriver(new Driver(driver.Id, Input.FirstName, Input.LastName, Input.Email)));
                 }
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

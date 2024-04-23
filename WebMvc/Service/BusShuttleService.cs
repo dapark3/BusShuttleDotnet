@@ -60,13 +60,13 @@ namespace WebMvc.Service
             return GetAllDrivers().Find(driver => driver.Id == id);
         }
 
-        public void UpdateDriverByID(int id, string firstName, string lastName, bool activated)
+        public void UpdateDriverByID(int id, string firstName, string lastName)
         {
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             Driver selectedDriver = FindDriverByID(id);
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             if(selectedDriver == null) return;
-            selectedDriver.Update(firstName, lastName, activated);
+            selectedDriver.Update(firstName, lastName);
             _context.SaveChanges();
         }
 
@@ -242,6 +242,31 @@ namespace WebMvc.Service
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             if(selectedStop == null) return;
             _context.Stops.Remove(selectedStop);
+            _context.SaveChanges();
+        }
+
+        public int GenerateId()
+        {
+            Random randomNumber = new(Guid.NewGuid().GetHashCode());
+            int nextId;
+            do {
+                nextId = randomNumber.Next(1, 1000000);
+            } while(IsIdTaken(nextId));
+            return nextId;
+        }
+
+        public bool IsIdTaken(int id)
+        {
+            return FindEntryByID(id) != null;
+        }
+
+        public Driver? FindDriverByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveChanges()
+        {
             _context.SaveChanges();
         }
     }
