@@ -23,7 +23,7 @@ namespace WebMvc.Controllers
             _shuttleService = shuttleService;
         }
 
-         [HttpGet]
+        [HttpGet]
         [Authorize(Roles = "Manager")]
         public IActionResult Index()
         {
@@ -34,16 +34,30 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult RouteCreate()
         {
-            return View(RouteCreateModel.CreateRoute(_shuttleService.GetAllRoutes().Count() + 1));
+            List<Stop> stops = _shuttleService.GetAllStops();
+            foreach(Stop stop in stops.ToList())
+            {
+                if(stop.Route != null)
+                {
+                    stops.Remove(stop);
+                }
+            }
+
+            return View(RouteCreateModel.CreateRoute(_shuttleService.GetAllRoutes().Count() + 1, stops));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> RouteCreate([Bind("Id,Order")] RouteCreateModel route)
+        public async Task<IActionResult> RouteCreate([Bind("Id,Order,Stop")] RouteCreateModel route)
         {
             if(!ModelState.IsValid) return View(route);
-            await Task.Run(() => _shuttleService.CreateNewRoute(new RouteDomainModel(route.Id, route.Order)));
+            await Task.Run(() => {
+                RouteDomainModel newRoute = new(route.Id, route.Order);
+            newRoute.SetStop(route.Stop);
+            route.Stop.SetRoute(newRoute);
+            _shuttleService.CreateNewRoute(newRoute);
+            });
             return RedirectToAction("Index");
         }
 

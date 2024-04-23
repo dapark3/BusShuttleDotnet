@@ -35,16 +35,30 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult EntryCreate()
         {
-            return View(EntryCreateModel.CreateEntry(_shuttleService.GetAllEntries().Count() + 1));
+            int newId = _shuttleService.GenerateId();
+            List<Bus> buses = _shuttleService.GetAllBuses();
+            List<Driver> drivers = _shuttleService.GetAllDrivers();
+            List<Stop> stops = _shuttleService.GetAllStops();
+            List<Loop> loops = _shuttleService.GetAllLoops();
+            EntryCreateModel creationModel = EntryCreateModel.CreateEntry(
+                newId, buses, drivers, loops, stops);
+        return View(creationModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> EntryCreate([Bind("Id,Timestamp,Boarded,LeftBehind")] EntryCreateModel entry)
+        public async Task<IActionResult> EntryCreate([Bind("Id,Timestamp,Boarded,LeftBehind,BusId,DriverId,LoopId,StopId")] EntryCreateModel entry)
         {
             if(!ModelState.IsValid) return View(entry);
-            await Task.Run(() => _shuttleService.CreateNewEntry(new Entry(entry.Id, entry.Boarded, entry.LeftBehind)));
+             await Task.Run(() => {
+                Entry newEntry = new Entry(entry.Id, entry.Boarded, entry.LeftBehind);
+                newEntry.SetBus(_shuttleService.FindBusByID(entry.BusId) ?? throw new InvalidOperationException());
+                newEntry.SetDriver(_shuttleService.FindDriverByID(entry.DriverId) ?? throw new InvalidOperationException());
+                newEntry.SetLoop(_shuttleService.FindLoopByID(entry.LoopId) ?? throw new InvalidOperationException());
+                newEntry.SetStop(_shuttleService.FindStopByID(entry.StopId) ?? throw new InvalidOperationException());
+                _shuttleService.CreateNewEntry(newEntry);
+            });
             return RedirectToAction("Index");
         }
 

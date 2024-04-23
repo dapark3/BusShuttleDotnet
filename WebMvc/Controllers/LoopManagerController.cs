@@ -70,6 +70,7 @@ namespace WebMvc.Controllers
         }
 
         [HttpGet]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
         public IActionResult LoopDelete([FromRoute] int id)
         {
@@ -77,6 +78,7 @@ namespace WebMvc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> LoopDelete(LoopDeleteModel LoopDeleteModel)
         {
@@ -84,5 +86,42 @@ namespace WebMvc.Controllers
             await Task.Run(() => _shuttleService.DeleteLoopById(LoopDeleteModel.Id));
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
+        public IActionResult UpdateRoutesInLoop([FromRoute] int id)
+        {
+            Loop? loop = _shuttleService.FindLoopByID(id);
+            if(loop == null) return RedirectToAction("Index");
+            return View(RoutesInLoopUpdateModel.FromLoop(id, loop.Routes));
+        }
+
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
+        public IActionResult AddRoute([FromRoute] int id)
+        {
+            List<RouteDomainModel> routes = _shuttleService.GetAllRoutes();
+            return View(RoutesInLoopAddModel.FromId(id, routes));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> AddRoute([Bind("LoopId,RouteId")] RoutesInLoopAddModel model)
+        {
+            if(!ModelState.IsValid) return View(model);
+            RouteDomainModel? route = _shuttleService.FindRouteByID(model.RouteId);
+            if(route == null) return View(model);
+            await Task.Run(() => {
+                Loop? loop = _shuttleService.FindLoopByID(model.LoopId) ?? throw new InvalidOperationException();
+                route.SetLoop(loop);
+                loop.AddRoute(route);
+                _shuttleService.SaveChanges();
+            });
+            return RedirectToAction("Index");
+        }
+
     }
 }
