@@ -16,22 +16,19 @@ namespace DomainModel
         public string Email {get; set;}
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public bool Activated {get; set;}
-        public Driver(int id, string firstName, string lastName, string email, bool activated)
+        public Driver(int id, string firstName, string lastName, string email)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
                 Id = id;
                 FirstName = firstName;
                 LastName = lastName;
                 Email = email;
-                Activated = activated;
         }
         
-        public void Update(string newFirstName, string newLastName, bool newActivated)
+        public void Update(string newFirstName, string newLastName)
         {
                 FirstName = newFirstName;
                 LastName = newLastName;
-                Activated = newActivated;
         }
     }
 }

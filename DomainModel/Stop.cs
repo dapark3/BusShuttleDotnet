@@ -16,6 +16,8 @@ namespace DomainModel
 
         public double Longitude {get; set;}
 
+        public virtual RouteDomainModel? Route {get; set;}
+
         public Stop(int id, string name, double latitude, double longitude)
         {
             Id = id;
@@ -29,6 +31,12 @@ namespace DomainModel
             Name = newName;
             Latitude = newLatitude;
             Longitude = newLongitude;
+        }
+
+        public Stop SetRoute(RouteDomainModel route)
+        {
+            Route = route;
+            return this;
         }
     }
 }
