@@ -14,7 +14,7 @@
                 @Html.DisplayNameFor(model => model.Order)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Stop.Name)
+                @Html.DisplayNameFor(model => model.StopId)
             </th>
             <th>
                 Update Button
@@ -37,7 +37,7 @@
                         @Html.DisplayFor(model => item.Order)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => item.Stop.Name)
+                        @Html.DisplayFor(model => item.StopId)
                     </td>
                     <td>
                         <a asp-action="RouteUpdate" asp-route-id="@item.Id">Update</a>

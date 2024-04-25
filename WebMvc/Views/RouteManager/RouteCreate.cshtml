@@ -16,10 +16,18 @@
                 <span asp-validation-for="Order" class="text-danger"></span>
             </div>
             <div>
-                <select asp-for="Stop" class="form-control bg-dark text-light">
+                <select asp-for="StopId" class="form-control">
                     @foreach(var stop in Model.Stops)
                     {
-                        <option value="@stop" class="text-light bg-dark">@stop.Name</option>
+                        <option value="@stop.Id">@stop.Name</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <select asp-for="LoopId" class="form-control">
+                    @foreach(var loop in Model.Loops)
+                    {
+                        <option value="@loop.Id">@loop.Name</option>
                     }
                 </select>
             </div>
