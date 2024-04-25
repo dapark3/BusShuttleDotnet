@@ -262,7 +262,7 @@ namespace WebMvc.Service
 
         public Driver? FindDriverByEmail(string email)
         {
-            throw new NotImplementedException();
+            return GetAllDrivers().Find(driver => driver.Email == email);
         }
 
         public void SaveChanges()
