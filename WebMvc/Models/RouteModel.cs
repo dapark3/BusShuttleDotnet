@@ -2,53 +2,51 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
 using DomainModel;
 
 namespace WebMvc.Models
 {
-    public class RouteDataModel
-    {
-        public int Id {get;set;}
-        public int Order {get;set;}
-    }
-
     public class RouteViewModel
     {
         public int Id {get;set;}
         public int Order {get;set;}
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Stop Stop {get;set;}
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public int StopId {get;set;}
 
         public static RouteViewModel FromRoute(RouteDomainModel route)
         {
             return new RouteViewModel{
                 Id = route.Id,
-                Order = route.Order,
-                Stop = route.Stop
+                Order = route.Order
             };
         }
     }
 
     public class RouteCreateModel
     {
+        [Required]
         public int Id {get;set;}
+        [Required]
         public int Order {get;set;}
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Stop Stop {get;set;}
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        [Required]
+        public int StopId {get;set;}
+        [Required]
         public List<Stop> Stops {get;set;}
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        
+        [Required]
+        public int LoopId {get;set;}
+        [Required]
+        public List<Loop> Loops {get;set;}
 
-        public static RouteCreateModel CreateRoute(int id, List<Stop> stops)
+        public static RouteCreateModel CreateRoute(int id, List<Stop> stops, List<Loop> loops)
         {
             return new RouteCreateModel{
                 Id = id,
-                Order = -1,
-                Stops = stops
+                Order = 0,
+                Stops = stops,
+                Loops = loops
             };
         }
     }

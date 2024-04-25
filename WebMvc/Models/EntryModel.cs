@@ -3,19 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using DomainModel;
 using WebMvc.Service;
+using System.ComponentModel.DataAnnotations;
+
+using DomainModel;
 
 namespace WebMvc.Models
 {
-    public class EntryDataModel
-    {
-        public int Id {get;set;}
-        public DateTime Timestamp {get;set;}
-        public int Boarded {get;set;}
-        public int LeftBehind {get;set;}
-    }
-
     public class EntryViewModel
     {
         public int Id {get;set;}
@@ -40,26 +34,30 @@ namespace WebMvc.Models
 
     public class EntryCreateModel
     {
-
+        [Required]
         public int Id {get;set;}
-
+        [Required]
         public DateTime Timestamp {get;set;}
-
+        [Required]
         public int Boarded {get;set;}
-
+        [Required]
         public int LeftBehind {get;set;}
 
+        [Required]
         public int BusId {get;set;}
-        public List<Bus> Buses {get;set;}
+        public List<Bus>? Buses {get;set;}
 
+        [Required]
         public int DriverId {get;set;}
-        public List<Driver> Drivers {get;set;}
+        public List<Driver>? Drivers {get;set;}
 
+        [Required]
         public int LoopId {get;set;}
-        public List<Loop> Loops {get;set;}
+        public List<Loop>? Loops {get;set;}
 
+        [Required]
         public int StopId {get;set;}
-        public List<Stop> Stops {get;set;}
+        public List<Stop>? Stops {get;set;}
 
         public static EntryCreateModel CreateEntry(int id, List<Bus> buses, List<Driver> drivers, List<Loop> loops, List<Stop> stops)
         {
@@ -98,18 +96,30 @@ namespace WebMvc.Models
 
     public class EntryUpdateModel
     {
+        [Required]
         public int Id {get;set;}
+        [Required]
         public DateTime Timestamp {get;set;}
+        [Required]
         public int Boarded {get;set;}
+        [Required]
         public int LeftBehind {get;set;}
+
+        [Required]
         public int BusId {get;set;}
-        public List<Bus> Buses {get;set;}
+        public List<Bus>? Buses {get;set;}
+
+        [Required]
         public int DriverId {get;set;}
-        public List<Driver> Drivers {get;set;}
+        public List<Driver>? Drivers {get;set;}
+
+        [Required]
         public int LoopId {get;set;}
-        public List<Loop> Loops {get;set;}
+        public List<Loop>? Loops {get;set;}
+
+        [Required]
         public int StopId {get;set;}
-        public List<Stop> Stops {get;set;}
+        public List<Stop>? Stops {get;set;}
 
         public static EntryUpdateModel UpdateEntry(Entry entry)
         {
@@ -159,6 +169,11 @@ namespace WebMvc.Models
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public List<Stop> Stops {get;set;}
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+        public int BusId {get;set;}
+        public int DriverId {get;set;}
+        public int LoopId {get;set;}
+        public int StopId {get;set;}
 
         public static EntrySelectModel SelectEntry(int id, Bus bus, Driver driver, Loop loop, List<Stop> stops)
         {
