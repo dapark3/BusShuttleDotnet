@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,11 +9,14 @@ namespace DomainModel
 {
     public class RouteDomainModel
     {
+        [Key]
         public int Id {get; set;}
         public int Order {get; set;}
-        public virtual Stop? Stop {get; set;}
+        public Stop Stop {get; set;}
+        [ForeignKey("StopId")]
         public int StopId { get; set; }
-        public virtual Loop? Loop {get;set;}
+        public Loop Loop {get;set;}
+        [ForeignKey("LoopId")]
         public int LoopId { get; set; }
         
         public RouteDomainModel(int id, int order)
