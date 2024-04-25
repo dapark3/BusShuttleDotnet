@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMvc.Models;
 
@@ -10,9 +11,11 @@ using WebMvc.Models;
 namespace WebMvc.Migrations
 {
     [DbContext(typeof(BusShuttleContext))]
-    partial class BusShuttleContextModelSnapshot : ModelSnapshot
+    [Migration("20240424220538_RemoveQuestionNullability")]
+    partial class RemoveQuestionNullability
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");

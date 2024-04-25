@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMvc.Models;
 
@@ -10,9 +11,11 @@ using WebMvc.Models;
 namespace WebMvc.Migrations
 {
     [DbContext(typeof(BusShuttleContext))]
-    partial class BusShuttleContextModelSnapshot : ModelSnapshot
+    [Migration("20240424212605_AddStopForeignKey")]
+    partial class AddStopForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -65,19 +68,19 @@ namespace WebMvc.Migrations
                     b.Property<int>("Boarded")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BusId")
+                    b.Property<int?>("BusId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DriverId")
+                    b.Property<int?>("DriverId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("LeftBehind")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LoopId")
+                    b.Property<int?>("LoopId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("StopId")
+                    b.Property<int?>("StopId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Timestamp")
@@ -165,27 +168,19 @@ namespace WebMvc.Migrations
                 {
                     b.HasOne("DomainModel.Bus", "Bus")
                         .WithMany()
-                        .HasForeignKey("BusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BusId");
 
                     b.HasOne("DomainModel.Driver", "Driver")
                         .WithMany()
-                        .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DriverId");
 
                     b.HasOne("DomainModel.Loop", "Loop")
                         .WithMany()
-                        .HasForeignKey("LoopId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LoopId");
 
                     b.HasOne("DomainModel.Stop", "Stop")
                         .WithMany()
-                        .HasForeignKey("StopId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StopId");
 
                     b.Navigation("Bus");
 
@@ -222,8 +217,7 @@ namespace WebMvc.Migrations
 
             modelBuilder.Entity("DomainModel.Stop", b =>
                 {
-                    b.Navigation("Route")
-                        .IsRequired();
+                    b.Navigation("Route");
                 });
 #pragma warning restore 612, 618
         }
