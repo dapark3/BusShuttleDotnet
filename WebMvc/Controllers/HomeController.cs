@@ -22,12 +22,14 @@ public class HomeController : Controller
     [Authorize("IsActivated")]
     public IActionResult Index()
     {
+        _logger.LogInformation("Accessed Home Index Page");
         return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
+        _logger.LogInformation("Error");
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

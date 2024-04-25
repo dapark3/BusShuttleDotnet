@@ -36,6 +36,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult Index()
         {
+            _logger.LogInformation("Accessed Driver Index Page");
             return View(_shuttleService.GetAllDrivers().Select(bus => DriverViewModel.FromDriver(bus)));
         }
 
@@ -43,6 +44,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult DriverUpdate([FromRoute] int id)
         {
+            _logger.LogInformation("Accessed Driver Update Page");
     #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             Driver selectedDriver = _shuttleService.FindDriverByID(id);
     #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
@@ -60,7 +62,7 @@ namespace WebMvc.Controllers
     #pragma warning disable CS8604 // Possible null reference argument.
             await Task.Run(() => _shuttleService.UpdateDriverByID(DriverUpdateModel.Id, DriverUpdateModel.FirstName, DriverUpdateModel.LastName));
     #pragma warning restore CS8604 // Possible null reference argument.
-        
+            _logger.LogInformation("Updated Driver.");
             return RedirectToAction("Index");
         }
 
@@ -68,6 +70,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult DriverDelete([FromRoute] int id)
         {
+            _logger.LogInformation("Accessed Driver Delete Page");
             return View(DriverDeleteModel.DeleteDriver(id));
         }
 
@@ -77,12 +80,14 @@ namespace WebMvc.Controllers
         {
             if(!ModelState.IsValid) return View(DriverDeleteModel);
             await Task.Run(() => _shuttleService.DeleteDriverByID(DriverDeleteModel.Id));
+            _logger.LogInformation("Deleted Driver");
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public async Task<IActionResult> ActivateDriver([FromRoute] string id)
         {
+            _logger.LogInformation("Activated Driver");
             await _userService.UpdateAccountActivation(id, true);
             return RedirectToAction("Index");
         }
@@ -90,6 +95,7 @@ namespace WebMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> DeactivateDriver([FromRoute] string id)
         {
+            _logger.LogInformation("Deactivated Driver");
             await _userService.UpdateAccountActivation(id, false);
             return RedirectToAction("Index");
         }

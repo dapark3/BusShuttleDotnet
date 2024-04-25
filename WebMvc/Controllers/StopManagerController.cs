@@ -28,6 +28,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult Index()
         {
+            _logger.LogInformation("Accessed Stop Index Page");
             return View(_shuttleService.GetAllStops().Select(stop => StopViewModel.FromStop(stop)));
         }
 
@@ -35,6 +36,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult StopCreate()
         {
+            _logger.LogInformation("Accessed Stop Create Page");
             return View(StopCreateModel.CreateStop(_shuttleService.GetAllStops().Count() + 1));
         }
 
@@ -45,6 +47,7 @@ namespace WebMvc.Controllers
         {
             if(!ModelState.IsValid) return View(stop);
             await Task.Run(() => _shuttleService.CreateNewStop(new Stop(stop.Id, stop.Name, stop.Latitude, stop.Longitude)));
+            _logger.LogInformation("Created stop");
             return RedirectToAction("Index");
         }
 
@@ -52,6 +55,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult StopUpdate([FromRoute] int id)
         {
+            _logger.LogInformation("Accessed Stop Update Page");
     #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             Stop selectedStop = _shuttleService.FindStopByID(id);
     #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
@@ -67,6 +71,7 @@ namespace WebMvc.Controllers
         {
             if(!ModelState.IsValid) return View(StopUpdateModel);
             await Task.Run(() => _shuttleService.UpdateStopByID(StopUpdateModel.Id, StopUpdateModel.Name, StopUpdateModel.Latitude, StopUpdateModel.Longitude));
+            _logger.LogInformation("Updated Stop");
             return RedirectToAction("Index");
         }
 
@@ -74,6 +79,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult StopDelete([FromRoute] int id)
         {
+            _logger.LogInformation("Accessed Stop Delete Page");
             return View(StopDeleteModel.DeleteStop(id));
         }
 
@@ -83,6 +89,7 @@ namespace WebMvc.Controllers
         {
             if(!ModelState.IsValid) return View(StopDeleteModel);
             await Task.Run(() => _shuttleService.DeleteStopById(StopDeleteModel.Id));
+            _logger.LogInformation("Deleted Stop");
             return RedirectToAction("Index");
         }
     }

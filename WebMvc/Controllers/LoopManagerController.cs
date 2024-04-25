@@ -27,6 +27,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult Index()
         {
+            _logger.LogInformation("Accessed Loop Index Page");
             return View(_shuttleService.GetAllLoops().Select(loop => LoopViewModel.FromLoop(loop)));
         }
 
@@ -34,6 +35,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult LoopCreate()
         {
+            _logger.LogInformation("Accessed Loop Create Page");
             return View(LoopCreateModel.CreateLoop(_shuttleService.GetAllLoops().Count() + 1));
         }
 
@@ -44,6 +46,7 @@ namespace WebMvc.Controllers
         {
             if(!ModelState.IsValid) return View(loop);
             await Task.Run(() => _shuttleService.CreateNewLoop(new Loop(loop.Id, loop.Name)));
+            _logger.LogInformation("Created Loop");
             return RedirectToAction("Index");
         }
 
@@ -51,6 +54,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult LoopUpdate([FromRoute] int id)
         {
+            _logger.LogInformation("Accessed Loop Update Page");
     #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             Loop selectedLoop = _shuttleService.FindLoopByID(id);
     #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
@@ -66,6 +70,7 @@ namespace WebMvc.Controllers
         {
             if(!ModelState.IsValid) return View(LoopUpdateModel);
             await Task.Run(() => _shuttleService.UpdateLoopByID(LoopUpdateModel.Id, LoopUpdateModel.Name));
+            _logger.LogInformation("Updated loop");
             return RedirectToAction("Index");
         }
 
@@ -74,6 +79,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult LoopDelete([FromRoute] int id)
         {
+            _logger.LogInformation("Accessed Driver Delete Page");
             return View(LoopDeleteModel.DeleteLoop(id));
         }
 
@@ -84,14 +90,16 @@ namespace WebMvc.Controllers
         {
             if(!ModelState.IsValid) return View(LoopDeleteModel);
             await Task.Run(() => _shuttleService.DeleteLoopById(LoopDeleteModel.Id));
+            _logger.LogInformation("Deleted Driver");
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
+        [HttpGet]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
         public IActionResult UpdateRoutesInLoop([FromRoute] int id)
         {
+            _logger.LogInformation("Accessed Route in Loop Page");
             Loop? loop = _shuttleService.FindLoopByID(id);
             if(loop == null) return RedirectToAction("Index");
             return View(RoutesInLoopUpdateModel.FromLoop(id, loop.Routes));
@@ -102,6 +110,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult AddRoute([FromRoute] int id)
         {
+            _logger.LogInformation("Accessed Route Add Page");
             List<RouteDomainModel> routes = _shuttleService.GetAllRoutes();
             return View(RoutesInLoopAddModel.FromId(id, routes));
         }
@@ -120,6 +129,7 @@ namespace WebMvc.Controllers
                 loop.AddRoute(route);
                 _shuttleService.SaveChanges();
             });
+            _logger.LogInformation("Added route to loop");
             return RedirectToAction("Index");
         }
 

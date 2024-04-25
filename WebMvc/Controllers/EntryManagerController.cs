@@ -28,6 +28,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult Index()
         {
+            _logger.LogInformation("Accessed Entry Index Page");
             return View(_shuttleService.GetAllEntries().Select(entry => EntryViewModel.FromEntry(entry)));
         }
 
@@ -35,6 +36,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult EntryCreate()
         {
+            _logger.LogInformation("Accessed Entry Create Page");
             int newId = _shuttleService.GenerateId();
             List<Bus> buses = _shuttleService.GetAllBuses();
             List<Driver> drivers = _shuttleService.GetAllDrivers();
@@ -59,6 +61,7 @@ namespace WebMvc.Controllers
                 newEntry.SetStop(_shuttleService.FindStopByID(entry.StopId) ?? throw new InvalidOperationException());
                 _shuttleService.CreateNewEntry(newEntry);
             });
+            _logger.LogInformation("Created Entry");
             return RedirectToAction("Index");
         }
 
@@ -66,6 +69,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult EntryUpdate([FromRoute] int id)
         {
+            _logger.LogInformation("Accessed Entry Update Page");
     #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             Entry selectedEntry = _shuttleService.FindEntryByID(id);
     #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
@@ -81,6 +85,7 @@ namespace WebMvc.Controllers
         {
             if(!ModelState.IsValid) return View(EntryUpdateModel);
             await Task.Run(() => _shuttleService.UpdateEntryByID(EntryUpdateModel.Id, EntryUpdateModel.Timestamp, EntryUpdateModel.Boarded, EntryUpdateModel.LeftBehind));
+            _logger.LogInformation("Updated Entry");
             return RedirectToAction("Index");
         }
 
@@ -88,6 +93,7 @@ namespace WebMvc.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult EntryDelete([FromRoute] int id)
         {
+            _logger.LogInformation("Accessed Entry Delete Page");
             return View(EntryDeleteModel.DeleteEntry(id));
         }
 
@@ -97,6 +103,7 @@ namespace WebMvc.Controllers
         {
             if(!ModelState.IsValid) return View(EntryDeleteModel);
             await Task.Run(() => _shuttleService.DeleteEntryByID(EntryDeleteModel.Id));
+            _logger.LogInformation("Deleted driver");
             return RedirectToAction("Index");
         }
     }

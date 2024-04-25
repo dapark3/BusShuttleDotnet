@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 using DomainModel;
 using WebMvc.Models;
@@ -31,6 +33,7 @@ namespace WebMvc.Controllers
         [HttpGet]
         public IActionResult DriverDashboard()
         {
+            _logger.LogInformation("Accessed Driver Dashboard.");
             List<Loop> loops = _shuttleService.GetAllLoops();
             List<Bus> buses = _shuttleService.GetAllBuses();
             return View(DriverDashboardModel.CreateUsingLists(loops, buses));
@@ -38,7 +41,7 @@ namespace WebMvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DriverDashboard(DriverDashboardModel model)
+        public async Task<IActionResult> DriverDashboard([Bind ("LoopId,BusId")]DriverDashboardModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -49,12 +52,14 @@ namespace WebMvc.Controllers
                 routeDictionary.Add(BUS_ID_KEY, model.BusId);
                 routeDictionary.Add(LOOP_ID_KEY, model.LoopId);
             });
+            _logger.LogInformation("Redirected to Entry Page");
             return RedirectToAction("DriverEntry", routeDictionary);
         }
 
         [HttpGet]
         public async Task<IActionResult> DriverEntry([FromQuery] int busId, [FromQuery] int loopId)
         {
+            _logger.LogInformation("Accessed Driver Entry Page.");
             string email = await _userService.GetUserEmail(ControllerContext.HttpContext);
             int nextId = _shuttleService.GenerateId();
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
@@ -87,7 +92,7 @@ namespace WebMvc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DriverEntry([Bind("Id,Boarded,LeftBehind,BusId,DriverId,LoopId,StopId")]EntryCreateModel entry)
+        public async Task<IActionResult> DriverEntry([Bind("Id,Boarded,LeftBehind,BusId,DriverId,LoopId,StopId")]EntrySelectModel entry)
         {
             if(ModelState.IsValid)
             {
@@ -103,12 +108,14 @@ namespace WebMvc.Controllers
             RouteValueDictionary routeDictionary = [];
             routeDictionary.Add(BUS_ID_KEY, entry.BusId);
             routeDictionary.Add(LOOP_ID_KEY, entry.LoopId);
-            return RedirectToAction("EntryForm", routeDictionary);
+            _logger.LogInformation("Entry Created By Driver");
+            return RedirectToAction("DriverEntry", routeDictionary);
         }
         
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            _logger.LogInformation("Error");
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

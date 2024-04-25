@@ -42,6 +42,7 @@ namespace WebMvc.Models
             modelBuilder.Entity<RouteDomainModel>(routeConfig =>
             {
                 routeConfig.HasKey(route => route.Id).HasName("PrimaryKey_Id");
+                routeConfig.HasOne(route => route.Stop).WithOne(stop => stop.Route).HasForeignKey<RouteDomainModel>(route => route.StopId).IsRequired();
                 routeConfig.HasOne(route => route.Loop).WithMany(loop => loop.Routes);
             });
             modelBuilder.Entity<Stop>(stopConfig =>
